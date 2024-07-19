@@ -4,8 +4,8 @@
 
 halvoeDVI::AtHost::SPILink dviSPILink;
 GFXcanvas8 frame(320, 240);
-uint8_t testValueSent = 42;
-uint8_t testValueReceive = 127;
+uint16_t x = 0;
+uint16_t y = 5;
 
 void setup()
 {
@@ -14,20 +14,19 @@ void setup()
   Serial.println("Host Serial to USB is ready.");
 
   dviSPILink.begin();
-  frame.fillScreen(0xFFFF);
   Serial.println("Host leaves setup.");
-
-  //pinMode(halvoeDVI::CS_PIN, OUTPUT);
 }
 
 void loop()
 {
-  /*HALVOE_SPI_DEFAULT.beginTransaction(halvoeDVI::SPI_DEFAULT_SETTINGS);
-  digitalWrite(halvoeDVI::CS_PIN, LOW);
-  testValueReceive = HALVOE_SPI_DEFAULT.transfer(testValueSent);
-  digitalWrite(halvoeDVI::CS_PIN, HIGH);
-  HALVOE_SPI_DEFAULT.endTransaction();
-  Serial.println(testValueReceive);*/
-  dviSPILink.transferFrame(frame);
-  delay(5000);
+  if (dviSPILink.isDVIReady())
+  {
+    frame.fillScreen(0);
+    frame.fillRect(x, y, 25, 25, 255);
+    ++x; if (x == 320 - 25) { x = 0; }
+
+    Serial.println("dviSPILink.transferFrame(frame)");
+    dviSPILink.transferFrame(frame);
+    delay(40);
+  }
 }
