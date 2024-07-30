@@ -2,9 +2,11 @@
 
 #include "halvoeAtSPIHost.hpp"
 
+#include <cstring>
+
 halvoeDVI::AtHost::SPILink dviSPILink;
 elapsedMicros timeSinceLastFrame;
-unsigned long frameInterval = 30000; // micro seconds
+unsigned long frameInterval = 18000; // micro seconds
 GFXcanvas8 frame(320, 240);
 uint16_t x = 0;
 uint16_t y = 5;
@@ -17,7 +19,7 @@ void setup()
 
   dviSPILink.begin();
   Serial.println("Host leaves setup.");
-  timeSinceLastFrame = 0;
+  timeSinceLastFrame = frameInterval;
 }
 
 void loop()
@@ -28,8 +30,8 @@ void loop()
     frame.fillRect(x, y, 25, 25, 255);
     ++x; if (x == 320 - 25) { x = 0; }
 
-    Serial.println("dviSPILink.transferFrame(frame)");
     dviSPILink.transferFrame(frame);
+    Serial.println("dviSPILink.transferFrame(frame) done");
     timeSinceLastFrame = 0;
   }
 }
