@@ -6,7 +6,7 @@
 
 halvoeDVI::AtHost::SPILink dviSPILink;
 elapsedMicros timeSinceLastFrame;
-unsigned long frameInterval = 18000; // micro seconds
+unsigned long frameInterval = 30 * 1000;//18000; // micro seconds
 GFXcanvas8 frame(320, 240);
 uint16_t x = 0;
 uint16_t y = 5;
@@ -26,12 +26,17 @@ void loop()
 {
   if (dviSPILink.isDVIReady() && timeSinceLastFrame >= frameInterval)
   {
-    frame.fillScreen(0);
-    frame.fillRect(x, y, 25, 25, 255);
-    ++x; if (x == 320 - 25) { x = 0; }
+    dviSPILink.fillScreen(0);
+    Serial.println("fillScreen() done");
+    delay(10);
+    dviSPILink.fillRect(x, y, 25, 25, 255);
+    Serial.println("fillRect() done");
+    delay(10);
+    dviSPILink.swap();
+    Serial.println("swap() done");
+    delay(10);
 
-    dviSPILink.transferFrame(frame);
-    Serial.println("dviSPILink.transferFrame(frame) done");
+    ++x; if (x == 320 - 25) { x = 0; }
     timeSinceLastFrame = 0;
   }
 }
