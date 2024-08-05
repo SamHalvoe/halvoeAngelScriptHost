@@ -28,13 +28,13 @@ void loop()
   {
     dviSPILink.fillScreen(0);
     Serial.println("fillScreen() done");
-    delay(10);
+    delay(1000);
     dviSPILink.fillRect(x, y, 25, 25, 255);
     Serial.println("fillRect() done");
-    delay(10);
+    delay(1000);
     dviSPILink.swap();
     Serial.println("swap() done");
-    delay(10);
+    delay(1000);
 
     ++x; if (x == 320 - 25) { x = 0; }
     timeSinceLastFrame = 0;
