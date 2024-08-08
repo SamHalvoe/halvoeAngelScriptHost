@@ -2,12 +2,9 @@
 
 #include "halvoeAtSPIHost.hpp"
 
-#include <cstring>
-
 halvoeDVI::AtHost::SPILink dviSPILink;
 elapsedMicros timeSinceLastFrame;
 unsigned long frameInterval = 30 * 1000;//18000; // micro seconds
-GFXcanvas8 frame(320, 240);
 uint16_t x = 0;
 uint16_t y = 5;
 
